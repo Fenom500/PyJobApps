@@ -24,7 +24,7 @@ class JobPosting(WebPage):
         print("{} is hiring for the position of {}".format(self.company, self.job_title))
 
 
-class SearchResults(WebPage):
+class SearchResults():
 
     def __init__(self, target_link):
         super().__init__(target_link)
