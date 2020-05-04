@@ -42,6 +42,6 @@ class SearchResults(WebPage):
 # sample = JobPosting(sample_job_1)
 # print(sample.job_title)
 
-sample_search_results = "https://www.ziprecruiter.com/search?form=jobs-landing&search=entry+python&location=Hayward%2C+CA"
+sample_search_results = "https://www.ziprecruiter.com/candidate/search?form=jobs-landing&search=entry+python&location=Hayward%2C+CA"
 sample = WebPage(sample_search_results)
 print(sample.soup)
