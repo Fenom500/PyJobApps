@@ -2,20 +2,35 @@ import bs4 as bs
 import urllib.request
 
 
-class Job_Posting:
+class WebPage:
 
-    def __init__(self, link):
-        # opens web page of Job_posting Link
-        self.req = urllib.request.Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+    def __init__(self, target_link):
+        self.link = target_link
+        self.req = urllib.request.Request(self.link, headers={'User-Agent': 'Mozilla/5.0'})
         self.source = urllib.request.urlopen(self.req).read()
         self.soup = bs.BeautifulSoup(self.source, features="html.parser")
+
+
+class JobPosting(WebPage):
+
+    def __init__(self, target_link):
+        super().__init__(target_link)
         self.job_text = self.soup.find("div", class_="jobDescriptionSection").text
         self.company = self.soup.find("span", class_="hiring_company_text t_company_name").text
+        self.job_title = self.soup.find("h1", class_="job_title").text
+        self.job_title = self.job_title.strip()
+
+    def print_info(self):
+        print("{} is hiring for the position of {}".format(self.company, self.job_title))
+
+
+class SearchResults(WebPage):
+
+    def __init__(self, target_link):
+        super().__init__(target_link)
 
 
 
-sample_job_1 = "https://www.ziprecruiter.com/jobs/vector-atomic-63c83f51/embedded-programmer-entry-level-7dc73e97?job_id=0655f0a8b0ae0725fc4e5e4553a3201b"
-
-sample = Job_Posting(sample_job_1)
-
-print(sample.company)
+# sample_job_1 = "https://www.ziprecruiter.com/jobs/vector-atomic-63c83f51/embedded-programmer-entry-level-7dc73e97?job_id=0655f0a8b0ae0725fc4e5e4553a3201b"
+# sample = JobPosting(sample_job_1)
+# print(sample.job_title)
