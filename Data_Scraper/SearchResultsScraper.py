@@ -1,6 +1,7 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import selenium.common.exceptions
 
 path_to_chrome_webdriver = "C:\\Users\\shahi\\Downloads\\chromedriver_win32\\chromedriver.exe"
 
@@ -13,7 +14,7 @@ class ZipRecruiterBot:
     def go_to_homepage(self):
         self.driver.get("http://www.ziprecruiter.com")
 
-    def set_search(self, search_term,location="Hayward,CA"):
+    def set_search(self, search_term, location="Hayward,CA"):
         self.go_to_homepage()
         keyword_field = self.driver.find_element_by_id("search1")
         keyword_field.send_keys(search_term)
@@ -42,8 +43,11 @@ class ZipRecruiterBot:
 
     def load_all_search_results(self):
         self.scroll_to_bottom()
-        load_jobs_button = self.driver.find_element_by_xpath("""//*[@id="primary"]/section[2]/div/button""")
-        load_jobs_button.click()
+        try:
+            load_jobs_button = self.driver.find_element_by_xpath("""//*[@id="primary"]/section[2]/div/button""")
+            load_jobs_button.click()
+        except selenium.common.exceptions.ElementNotInteractableException:
+            pass
         last_height = 0
         while True:
             time.sleep(1)
